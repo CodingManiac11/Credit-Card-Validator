@@ -46,4 +46,10 @@ The application implements the Luhn algorithm to validate credit card numbers. T
 2. The number will be automatically formatted for better readability
 3. The card type will be detected and displayed as you type
 4. Click "Validate Card" to check if the number is valid
-5. A success or error message will appear with the validation result 
+5. A success or error message will appear with the validation result
+
+## Output
+![image](https://github.com/user-attachments/assets/df92fee7-29a2-473c-a0e1-655036522378)
+![image](https://github.com/user-attachments/assets/1f17e218-6380-4e0e-bbe6-b75612aa4bb8)
+![image](https://github.com/user-attachments/assets/53c86e4f-7041-4ae7-a442-c236fdbccd7d)
+
