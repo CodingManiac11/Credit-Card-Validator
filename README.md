@@ -29,6 +29,7 @@ A modern, responsive web application that validates credit card numbers using Lu
    npm start
    ```
 4. Open [http://localhost:3000](http://localhost:3000) in your browser
+5. Deployment url : https://credit-card-validator-one.vercel.app/
 
 ## How It Works
 
