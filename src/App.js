@@ -2,6 +2,7 @@ import EducationalMode from './components/EducationalMode';
 import GamifiedValidation from './components/GamifiedValidation';
 import CardArtGenerator from './components/CardArtGenerator';
 import CardNumberVisualization from './components/CardNumberVisualization';
+import { useMemo } from 'react';
 import React, { useState } from 'react';
 import {
   Container,
@@ -31,6 +32,31 @@ function App() {
   const [isValid, setIsValid] = useState(null);
   const [cardType, setCardType] = useState('');
   const [cardBg, setCardBg] = useState('#1976d2');
+
+  // Deterministic card details based on card number
+  const cardDetails = useMemo(() => {
+    // Use a hash of the card number to pick deterministic values
+    const hash = (str) => {
+      let h = 0;
+      for (let i = 0; i < str.length; i++) {
+        h = (h * 31 + str.charCodeAt(i)) & 0xffffffff;
+      }
+      return Math.abs(h);
+    };
+    const names = [
+      'ALEX JOHNSON', 'PRIYA SINGH', 'JORDAN LEE', 'EMMA WILSON',
+      'RAHUL PATEL', 'LISA CHEN', 'MARIO ROSSI', 'SOFIA GARCIA'
+    ];
+    const h = hash(cardNumber.replace(/\D/g, ''));
+    const name = names[h % names.length];
+    // Expiry: MM/YY, MM = 01-12, YY = 27-32
+    const month = ((h % 12) + 1).toString().padStart(2, '0');
+    const year = (27 + (h % 6)).toString();
+    const expiry = `${month}/${year}`;
+    // CVV: 3 digits
+    const cvv = ((h % 900) + 100).toString();
+    return { name, expiry, cvv };
+  }, [cardNumber]);
 
 
   const luhnCheck = (cardNumber) => {
@@ -108,6 +134,9 @@ function App() {
             cardType={cardType}
             isValid={isValid}
             small={true}
+            name={cardDetails.name}
+            expiry={cardDetails.expiry}
+            cvv={cardDetails.cvv}
           />
         </div>
         <Container maxWidth="sm">
@@ -148,7 +177,15 @@ function App() {
                 <CardArtGenerator onArtChange={setCardBg} />
 
                 {/* Card Number Visualization */}
-                <CardNumberVisualization cardNumber={cardNumber} cardBg={cardBg} cardType={cardType} isValid={isValid} />
+                <CardNumberVisualization
+                  cardNumber={cardNumber}
+                  cardBg={cardBg}
+                  cardType={cardType}
+                  isValid={isValid}
+                  name={cardDetails.name}
+                  expiry={cardDetails.expiry}
+                  cvv={cardDetails.cvv}
+                />
 
                 {/* Educational Mode */}
                 <EducationalMode cardNumber={cardNumber} />

@@ -48,17 +48,16 @@ const getRandomCVV = () => {
   return ('' + Math.floor(100 + Math.random() * 900));
 };
 
-const CardNumberVisualization = ({ cardNumber, cardBg, cardType, isValid, small }) => {
+const CardNumberVisualization = ({ cardNumber, cardBg, cardType, isValid, small, name, expiry, cvv }) => {
   const formatted = formatCardNumber(cardNumber || '');
   const background = cardBg && cardBg !== '#1976d2'
     ? cardBg
     : 'linear-gradient(120deg, #1976d2 60%, #42a5f5 100%)';
-
-  // For the fixed preview, always use small size and random details
   const isPreview = small;
-  const name = React.useMemo(randomName, []);
-  const expiry = React.useMemo(getRandomExpiry, []);
-  const cvv = React.useMemo(getRandomCVV, []);
+  // Use provided name/expiry/cvv if available, else fallback to random (for animated/empty state)
+  const _name = name !== undefined ? name : React.useMemo(randomName, []);
+  const _expiry = expiry !== undefined ? expiry : React.useMemo(getRandomExpiry, []);
+  const _cvv = cvv !== undefined ? cvv : React.useMemo(getRandomCVV, []);
 
   if ((isValid && cardType) || isPreview) {
     // If small preview and invalid, show only number and invalid message
@@ -122,11 +121,11 @@ const CardNumberVisualization = ({ cardNumber, cardBg, cardType, isValid, small 
           <div className="real-card-number" style={{ fontSize: isPreview ? '1.1rem' : '2.1rem', marginBottom: isPreview ? 8 : 18 }}>{formatted}</div>
           <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between', alignItems: 'center' }}>
             <div className="real-card-label" style={{ fontSize: isPreview ? '0.7rem' : '1.1rem' }}>{cardType}</div>
-            <div className="real-card-cvv" style={{ fontSize: isPreview ? '0.7rem' : '1.1rem', opacity: 0.7 }}>CVV {cvv}</div>
+            <div className="real-card-cvv" style={{ fontSize: isPreview ? '0.7rem' : '1.1rem', opacity: 0.7 }}>CVV {_cvv}</div>
           </div>
           <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between', alignItems: 'center', marginTop: isPreview ? 4 : 10 }}>
-            <div className="real-card-name" style={{ fontSize: isPreview ? '0.8rem' : '1.1rem', fontWeight: 500 }}>{name}</div>
-            <div className="real-card-expiry" style={{ fontSize: isPreview ? '0.8rem' : '1.1rem', opacity: 0.8 }}>EXP {expiry}</div>
+            <div className="real-card-name" style={{ fontSize: isPreview ? '0.8rem' : '1.1rem', fontWeight: 500 }}>{_name}</div>
+            <div className="real-card-expiry" style={{ fontSize: isPreview ? '0.8rem' : '1.1rem', opacity: 0.8 }}>EXP {_expiry}</div>
           </div>
         </div>
         <style>{`
