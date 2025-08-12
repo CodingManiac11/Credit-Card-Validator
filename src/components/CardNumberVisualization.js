@@ -54,10 +54,14 @@ const CardNumberVisualization = ({ cardNumber, cardBg, cardType, isValid, small,
     ? cardBg
     : 'linear-gradient(120deg, #1976d2 60%, #42a5f5 100%)';
   const isPreview = small;
-  // Use provided name/expiry/cvv if available, else fallback to random (for animated/empty state)
-  const _name = name !== undefined ? name : React.useMemo(randomName, []);
-  const _expiry = expiry !== undefined ? expiry : React.useMemo(getRandomExpiry, []);
-  const _cvv = cvv !== undefined ? cvv : React.useMemo(getRandomCVV, []);
+  // Always call hooks at the top level
+  const randomNameValue = React.useMemo(randomName, []);
+  const randomExpiryValue = React.useMemo(getRandomExpiry, []);
+  const randomCVVValue = React.useMemo(getRandomCVV, []);
+  // Use provided name/expiry/cvv if available, else fallback to random
+  const _name = name !== undefined ? name : randomNameValue;
+  const _expiry = expiry !== undefined ? expiry : randomExpiryValue;
+  const _cvv = cvv !== undefined ? cvv : randomCVVValue;
 
   if ((isValid && cardType) || isPreview) {
     // If small preview and invalid, show only number and invalid message
