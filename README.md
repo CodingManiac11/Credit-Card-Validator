@@ -89,8 +89,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Material-UI for the beautiful components
 - React community for the amazing ecosystem
 
-## 📸 Screenshots
 
-![Main UI](https://github.com/user-attachments/assets/df92fee7-29a2-473c-a0e1-655036522378)
-![Card Preview](https://github.com/user-attachments/assets/1f17e218-6380-4e0e-bbe6-b75612aa4bb8)
-![Gamified Validation](https://github.com/user-attachments/assets/53c86e4f-7041-4ae7-a442-c236fdbccd7d)
